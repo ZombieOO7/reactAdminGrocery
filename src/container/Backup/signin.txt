@@ -1,0 +1,229 @@
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import Button from "@material-ui/core/Button";
+import { Link } from "react-router-dom";
+import { Form, FormGroup, Input } from "reactstrap";
+import { apiCall, displayLog } from "../util/common";
+import "react-toastify/dist/ReactToastify.css";
+import firebase from "firebase/app";
+import { getToken } from "../routes/Firebase/FirebaseConfig";
+import ReCAPTCHA from "react-google-recaptcha";
+import QueueAnim from "rc-queue-anim";
+import Captcha from "../container/captcha/Captcha";
+
+const Signin = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [new_captcha, setNewCaptcha] = useState("");
+  const [captchaValue, setCaptchaValue] = useState("");
+  const [showPasswordFlag, setShowPasswordFlag] = useState(false);
+  const [isTokenFound, setTokenFound] = useState(false);
+  const [firebaseToken, setFirebaseToken] = useState("");
+  const history = useHistory();
+
+  useEffect(() => {
+    firebaseNotification();
+  }, [setTokenFound]);
+
+  const firebaseNotification = () => {
+    let data;
+    async function tokenFunc() {
+      data = await getToken(setTokenFound);
+      if (data) {
+        setFirebaseToken(data);
+      }
+      return data;
+    }
+    tokenFunc();
+  };
+
+  const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+  const onUserLogin = async () => {
+    if (email == "") {
+      displayLog(0, "Email is required");
+    } else if (!regex.test(email)) {
+      displayLog(0, "Email is incorrect");
+    } else if (password == "") {
+      displayLog(0, "Password is required");
+    }
+    //  else if (new_captcha == "") {
+    //   displayLog(0, "Captcha is required");
+    // } else if (new_captcha != captchaValue) {
+    //   displayLog(0, "Captcha is invalid");
+    // }
+    else {
+      let data = {
+        email: email.toLowerCase(),
+        password: password,
+        device_token: firebaseToken,
+      };
+      const response = await apiCall("POST", "signin", data);
+      if (response.code == 1) {
+        localStorage.setItem("DEVICE_TOKEN", firebaseToken);
+        localStorage.setItem("AUTH_TOKEN", response.data.auth_token);
+        localStorage.setItem("ROLE", response.data.role);
+        localStorage.setItem("FIREBASE_ID", response.data.firebaseID);
+        displayLog(1, "You are successfully logged in");
+        history.push({ pathname: "/app/dashboard" });
+      }
+    }
+  };
+
+  const handleCaptcha = (captcha) => {
+    if (captcha) {
+      setCaptchaValue(captcha);
+    }
+  };
+
+  const handleCaptchaValue = (captchaValue) => {
+    if (captchaValue) {
+      setNewCaptcha(captchaValue);
+    }
+  };
+
+  const onChangeCaptcha = (value) => {
+    if (value != null || "") {
+      captchaValue(value);
+    }
+  };
+
+  const showPassword = () => {
+    setShowPasswordFlag(true);
+  };
+
+  const hidePassword = () => {
+    setShowPasswordFlag(false);
+  };
+
+  const enterPressed = (event) => {
+    var code = event.keyCode || event.which;
+    if (code === 13) {
+      onUserLogin();
+    }
+  };
+
+  return (
+    <QueueAnim type="top" duration={1000} interval={1000}>
+      <div className="rct-session-wrapper signin_back" key="1">
+        <div className="session-inner-wrapper">
+          <div className="container">
+            <div className="Center">
+              <div className="col-sm-10 col-md-10 col-lg-8">
+                <div className="session-body text-center">
+                  <h1
+                    style={{
+                      letterSpacing: "0.6px",
+                      fontSize: "2.875rem",
+                      color: "#223263",
+                      display: "inline-block",
+                      textTransform: "capitalize",
+                      margin: 0,
+                      fontWeight: "normal",
+                    }}
+                  >
+                    {/* PMISFBAC */}
+                    <img
+                      style={{ width: "350px" }}
+                      src={require("../assets/img/pmi_chapter_san_francisco_bay_area_logo.png")}
+                    />
+                  </h1>
+                  <div className="session-head mb-30"></div>
+
+                  <FormGroup className="has-wrapper">
+                    <span className="has-icon">
+                      <i className="ti-email"></i>
+                    </span>
+                    <Input
+                      style={{ height: "52px" }}
+                      type="mail"
+                      value={email}
+                      name="email"
+                      id="user-mail"
+                      className="has-input input-lg"
+                      placeholder="Email"
+                      onChange={(e) => setEmail(e.target.value)}
+                      onKeyPress={(e) => enterPressed(e)}
+                    />
+                  </FormGroup>
+                  <FormGroup className="has-wrapper">
+                    <span className="has-icon">
+                      <i className="ti-lock"></i>
+                    </span>
+                    <Input
+                      style={{ height: "52px" }}
+                      value={password}
+                      type={showPasswordFlag == true ? "text" : "password"}
+                      name="password"
+                      id="pwd"
+                      className="has-input input-lg"
+                      placeholder="Password"
+                      onChange={(e) => setPassword(e.target.value)}
+                      onKeyPress={(e) => enterPressed(e)}
+                    />
+                    {showPasswordFlag == false ? (
+                      <span
+                        className="show_hide_2"
+                        title="Show Password"
+                        onClick={showPassword}
+                      >
+                        <i className="zmdi zmdi-eye"></i>
+                      </span>
+                    ) : (
+                      <span
+                        className="show_hide_2"
+                        title="Hide Password"
+                        onClick={hidePassword}
+                      >
+                        <i className="zmdi zmdi-eye-off"></i>
+                      </span>
+                    )}
+                  </FormGroup>
+                  {/* <FormGroup>
+                    <ReCAPTCHA
+                      sitekey="6LcTOmUaAAAAACQ1lskWqChu_-ockkw9Zo9MAl9m"
+                      onChange={onChangeCaptcha}
+                      type="image"
+                    />
+                  </FormGroup> */}
+                  {/* <Captcha
+                    captcha={handleCaptcha}
+                    captchaValue={handleCaptchaValue}
+                  /> */}
+                  <FormGroup className="mb-15">
+                    <Button
+                      color="primary"
+                      className="btn-block text-white w-100"
+                      variant="contained"
+                      size="large"
+                      style={{
+                        fontSize: "20px",
+                        fontWeight: 600,
+                        borderRadius: "10px",
+                      }}
+                      onClick={() => onUserLogin()}
+                    >
+                      Login
+                    </Button>
+                  </FormGroup>
+                  <FormGroup className="mb-0">
+                    <Link
+                      to="/forgot-password"
+                      title="Forgot password"
+                      className="forgotpasswords"
+                      style={{ color: "black" }}
+                    >
+                      Forgot Password ?
+                    </Link>
+                  </FormGroup>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </QueueAnim>
+  );
+};
+
+export default Signin;
