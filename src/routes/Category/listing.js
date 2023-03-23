@@ -39,7 +39,7 @@ const InterestListing = () => {
   };
 
   const handleChange = () => {
-    history.push({ pathname: "/app/interests/addEditInterest" });
+    history.push({ pathname: "/app/category/addEditCategory" });
   };
 
   const handleDelete = async (item) => {
@@ -188,7 +188,7 @@ const InterestListing = () => {
                                           <Link
                                             to={{
                                               pathname:
-                                                "interests/addEditInterest",
+                                                "category/addEditCategory",
                                               search: `?Id=${item._id}`,
                                             }}
                                           >

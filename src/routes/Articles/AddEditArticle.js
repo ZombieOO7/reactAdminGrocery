@@ -43,7 +43,7 @@ const AddEditArticle = (props) => {
   }, []);
 
   const getCategoryListing = async () => {
-    let { data } = await apiCall("POST", "interestList", null);
+    let { data } = await apiCall("POST", "getCategoryListings", null);
     setCategoryListing(data);
   };
 

@@ -16,7 +16,14 @@ export default {
         {
             menu_title: "Category",
             menu_icon: "zmdi zmdi-widgets",
-            path: "/app/interests",
+            path: "/app/category",
+            new_item: false,
+            child_routes: null,
+        },
+        {
+            menu_title: "Sub Category",
+            menu_icon: "zmdi zmdi-border-all",
+            path: "/app/subCategory",
             new_item: false,
             child_routes: null,
         },

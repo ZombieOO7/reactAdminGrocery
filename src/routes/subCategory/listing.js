@@ -1,46 +1,42 @@
 import React, { useState, useEffect } from "react";
-import RctCollapsibleCard from "../../components/RctCollapsibleCard/RctCollapsibleCard";
 import { useHistory, Link } from "react-router-dom";
+import RctCollapsibleCard from "Components/RctCollapsibleCard/RctCollapsibleCard";
 import {
   apiCall,
   capitalizeFirstLetter,
   displayLog,
   confirmBox,
+  tConvert,
 } from "../../util/common";
 import ReactPaginate from "react-paginate";
 import Tooltip from "@material-ui/core/Tooltip";
 import { Col, Row, CardBody } from "reactstrap";
 
-const MeditationListing = () => {
+const subCategoryListing = () => {
   const [list, setList] = useState([]);
-  const [pageNo, setPageNo] = useState(1);
+  const [page_no, setPageNo] = useState(1);
   const [limit, setLimit] = useState(10);
   const [total, setTotal] = useState(2);
-  const [searchByName, setSearchByname] = useState("");
   const [loading, setLoading] = useState(true);
+  const [searchByName, setSearchByname] = useState("");
   const history = useHistory();
 
   useEffect(() => {
-    getMeditationListing();
-  }, [searchByName, pageNo]);
+    getListing();
+  }, [searchByName, page_no]);
 
-  const getMeditationListing = async () => {
-    let requestData = {
-      page_no: pageNo,
+  const getListing = async () => {
+    let req_data = {
+      page_no: page_no,
       limit: limit,
     };
     if (searchByName) {
-      requestData["search"] = searchByName;
+      req_data["search"] = searchByName;
     }
-    const { code, message, data } = await apiCall(
-      "POST",
-      "getMeditationListing",
-      requestData
-    );
-    if (code === 1) {
-      const { Meditations, total } = data;
-      setList(Meditations);
-      setTotal(total);
+    let data = await apiCall("POST", "subcategory/list", req_data);
+    if (data.code == 200) {
+      setList(data.data.subCategories);
+      setTotal(data.data.total);
       setLoading(false);
     } else {
       setLoading(false);
@@ -51,28 +47,26 @@ const MeditationListing = () => {
     setPageNo(e.selected + 1);
   };
 
-  const handleRedirection = () => {
-    history.push({ pathname: "/app/Meditation/AddEditMeditation" });
+  const handleChange = () => {
+    history.push({ pathname: "/app/subCategory/createUpdate" });
   };
 
-  const deleteHandler = async (meditation) => {
-    const { name, meditation_id } = meditation;
-    console.log("meditation", name);
-    const requestData = { meditation_id: meditation_id };
+  const handleDelete = async (item) => {
+    const { _id, name } = item;
     if (
       await confirmBox(
         capitalizeFirstLetter(name),
-        "Are you sure you want to delete"
+        `Are you sure you want to delete`
       )
     ) {
-      const { code } = await apiCall(
-        "POST",
-        "deleteMeditationById",
-        requestData
-      );
-      if (code === 1) {
-        getMeditationListing();
-        displayLog(code, "Meditation has been deleted successfully");
+      let reqData = {
+        _id: _id,
+      };
+      let { code } = await apiCall("POST", "subcategory/delete", reqData);
+
+      if (code == 200) {
+        getListing();
+        displayLog(code, "Subcategory has been successfully deleted");
       } else {
         setLoading(false);
       }
@@ -87,7 +81,8 @@ const MeditationListing = () => {
 
   return (
     <div className="user-management">
-      <h1 className="main_text_h1 mb-4">Meditation Management</h1>
+      <h1 className="main_text_h1 mb-4">Subcategory Management</h1>
+
       <RctCollapsibleCard fullBlock>
         <Row>
           <Col xl={12}>
@@ -95,38 +90,18 @@ const MeditationListing = () => {
               <Row className="align-items-right">
                 <Col
                   sm="6"
-                  md="6"
-                  className="mb-3 mb-xl-0"
-                  style={{ position: "relative", right: "0" }}
-                >
-                  <span className="has-wrapperss">
-                    <span className="left_icon_1">
-                      <i className="ti-search"></i>
-                    </span>
-                    <input
-                      className="input_default_1"
-                      placeholder="Search Meditation by name, description, category"
-                      type="text"
-                      value={searchByName}
-                      name="searchbyName"
-                      onChange={(e) => handleNameChange(e)}
-                    />
-                  </span>
-                </Col>
-                <Col
-                  sm="6"
                   md="3"
                   className="mb-3 mb-xl-0"
-                  style={{ position: "relative", right: "0" }}
+                  style={{ position: "relative", float: "right" }}
                 >
                   <div className="ml-2">
                     <button
                       className="exportbutton"
-                      onClick={handleRedirection}
+                      onClick={handleChange}
                       style={{ color: "white", width: "225px" }}
                     >
                       <i class="zmdi zmdi-plus-circle zmdi-hc-lg"></i>
-                      Add New Meditation
+                      Add New Subcategory
                     </button>
                   </div>
                 </Col>
@@ -143,10 +118,9 @@ const MeditationListing = () => {
                   <tr>
                     <th className="table__header">Sr.No.</th>
                     <th className="table__header">Name</th>
-                    <th className="table__header">Description</th>
                     <th className="table__header">Image</th>
                     <th className="table__header">Category</th>
-                    <th className="table__header">Action</th>
+                    <th className="table__header">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -155,48 +129,38 @@ const MeditationListing = () => {
                       {list?.length > 0 ? (
                         list.map((item, index) => (
                           <tr key={index}>
-                            <td>{index + 1 + (pageNo - 1) * limit}</td>
-                            <td>
-                              {capitalizeFirstLetter(
-                                item.name ? item.name : "--"
-                              )}
-                            </td>
-                            <td className="ellipsis12">
-                              {item.description ? item.description : "--"}
-                            </td>
+                            <td>{index + 1 + (page_no - 1) * limit}</td>
+                            <td>{capitalizeFirstLetter(item.name)}</td>
                             <td>
                               {item.image == null ? (
                                 "--"
                               ) : (
                                 <img
                                   src={item.image}
-                                  alt="Interest Logo"
+                                  alt={`${item.name}`}
                                   className="listimages"
                                 />
                               )}
                             </td>
                             <td>
-                              {item.interest_name ? item.interest_name : "--"}
+                              {item.category ? item.category.name : "--"}
                             </td>
                             <td className="list-action">
-                              <Tooltip title="Edit Meditation">
+                              <Tooltip title="Edit Subacategory">
                                 <Link
                                   to={{
-                                    pathname: "Meditation/AddEditMeditation",
-                                    search: `?Id=${item.meditation_id}`,
+                                    pathname: "subCategory/createUpdate",
+                                    search: `?Id=${item._id}`,
                                   }}
                                 >
                                   <i class="delete_new zmdi zmdi-edit"></i>
                                 </Link>
                               </Tooltip>
-                              <Tooltip
-                                id="tooltip-fab"
-                                title="Delete Meditation"
-                              >
+                              <Tooltip id="tooltip-fab" title="Delete Subcategory">
                                 <button
                                   type="button"
                                   className="rct-link-btn"
-                                  onClick={() => deleteHandler(item)}
+                                  onClick={() => handleDelete(item)}
                                 >
                                   <i class="delete_new zmdi zmdi-delete"></i>
                                 </button>
@@ -234,7 +198,7 @@ const MeditationListing = () => {
                           nextClassName={"page-item"}
                           nextLinkClassName={"page-link"}
                           activeClassName={"active"}
-                          forcePage={pageNo - 1}
+                          forcePage={page_no - 1}
                         />
                       </td>
                     </tr>
@@ -249,4 +213,4 @@ const MeditationListing = () => {
   );
 };
 
-export default MeditationListing;
+export default subCategoryListing;
