@@ -279,7 +279,7 @@ const AddEditSubCategory = (props) => {
                   className="logout mr-2"
                   onClick={() => submitHandler()}
                 >
-                  <i class="zmdi zmdi-floppy mr-2"></i> Save
+                  <i className="zmdi zmdi-floppy mr-2"></i> Save
                 </button>
               ) : (
                 <button
@@ -287,7 +287,7 @@ const AddEditSubCategory = (props) => {
                   className="logout mr-2"
                   onClick={() => submitHandler()}
                 >
-                  <i class="zmdi zmdi-floppy mr-2"></i>
+                  <i className="zmdi zmdi-floppy mr-2"></i>
                   Add
                 </button>
               )}
@@ -296,7 +296,7 @@ const AddEditSubCategory = (props) => {
                 className="editbtnss"
                 onClick={history.goBack}
               >
-                <i class="zmdi zmdi-close-circle-o mr-2"></i> Cancel
+                <i className="zmdi zmdi-close-circle-o mr-2"></i> Cancel
               </button>
             </CardFooter>
           </Col>

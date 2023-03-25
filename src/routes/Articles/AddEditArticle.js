@@ -186,16 +186,16 @@ const AddEditArticle = (props) => {
       if (params.Id) {
         formData.append("article_id", params.Id);
       }
-      if (selectedMilestones.length > 0) {
-        let milestone_details = [];
-        selectedMilestones.map((milestone) => {
-          let fk_milestone_id = {
-            fk_milestone_id: milestone.milestone_id,
-          };
-          milestone_details.push(fk_milestone_id);
-        });
-        formData.append("milestone_details", JSON.stringify(milestone_details));
-      }
+      // if (selectedMilestones.length > 0) {
+      //   let milestone_details = [];
+      //   selectedMilestones.map((milestone) => {
+      //     let fk_milestone_id = {
+      //       fk_milestone_id: milestone.milestone_id,
+      //     };
+      //     milestone_details.push(fk_milestone_id);
+      //   });
+      //   formData.append("milestone_details", JSON.stringify(milestone_details));
+      // }
       if (params && params.Id) {
         res = await apiCall("POST", "editArticleById", formData);
       } else {
@@ -268,7 +268,7 @@ const AddEditArticle = (props) => {
                       Article Description<em style={{ color: "red" }}>*</em>
                     </Label>
                     <CKEditor
-                      activeClass="p10"
+                      activeclassName="p10"
                       content={description}
                       events={{
                         change: onChange,
@@ -378,7 +378,7 @@ const AddEditArticle = (props) => {
                   className="logout mr-2"
                   onClick={() => submitHandler()}
                 >
-                  <i class="zmdi zmdi-floppy mr-2"></i> Save
+                  <i className="zmdi zmdi-floppy mr-2"></i> Save
                 </button>
               ) : (
                 <button
@@ -386,7 +386,7 @@ const AddEditArticle = (props) => {
                   className="logout mr-2"
                   onClick={() => submitHandler()}
                 >
-                  <i class="zmdi zmdi-floppy mr-2"></i>
+                  <i className="zmdi zmdi-floppy mr-2"></i>
                   Add
                 </button>
               )}
@@ -395,7 +395,7 @@ const AddEditArticle = (props) => {
                 className="editbtnss"
                 onClick={history.goBack}
               >
-                <i class="zmdi zmdi-close-circle-o mr-2"></i> Cancel
+                <i className="zmdi zmdi-close-circle-o mr-2"></i> Cancel
               </button>
             </CardFooter>
           </Col>

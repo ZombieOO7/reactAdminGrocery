@@ -90,7 +90,7 @@ class RctCollapsibleCard extends Component {
                   )}
                   {closeable && (
                     <a href="#" onClick={(e) => this.onCloseSection(e)}>
-                      <i class="delete_new zmdi zmdi-delete"></i>
+                      <i className="delete_new zmdi zmdi-delete"></i>
                     </a>
                   )}
                 </div>

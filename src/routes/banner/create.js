@@ -15,10 +15,9 @@ import queryString from "query-string";
 import ImageUploading from "react-images-uploading";
 
 const defaultInterestField = {
-  name: "",
   image: "",
 };
-const AddEditInterest = (props) => {
+const AddEditBanner = (props) => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(defaultInterestField);
   const { name, image } = data;
@@ -35,7 +34,7 @@ const AddEditInterest = (props) => {
     let req_data = {
       _id: params.Id,
     };
-    let { code, data } = await apiCall("POST", "getCategorybyId", req_data);
+    let { code, data } = await apiCall("POST", "banner/detail", req_data);
     const { name, image } = data;
     if (code == 200) {
       let images = [];
@@ -86,28 +85,25 @@ const AddEditInterest = (props) => {
   };
 
   const submitHandler = async () => {
-    if (name == "" || !name.trim()) {
-      displayLog(0, "Category name is required");
-    } else if (image == "") {
-      displayLog(0, "Category image is required");
+    if (image == "") {
+      displayLog(0, "Banner image is required");
     } else {
       let formData = new FormData();
       let res;
-      formData.append("name", name.trim());
       if (image[0].file) {
         formData.append("image", image[0].file);
       }
       if (params.Id) {
-        formData.append("id", params.Id);
+        formData.append("_id", params.Id);
       }
       if (params && params.Id) {
-        res = await apiCall("POST", "categoryManagement", formData);
+        res = await apiCall("POST", "banner/create", formData);
       } else {
-        res = await apiCall("POST", "categoryManagement", formData);
+        res = await apiCall("POST", "banner/create", formData);
       }
       if (res.code == 200) {
         displayLog(res.code, res.message);
-        history.push({ pathname: "/app/category" });
+        history.push({ pathname: "/app/banner" });
       } else {
         displayLog(res.code, res.message);
       }
@@ -119,7 +115,7 @@ const AddEditInterest = (props) => {
       <h1 className="main_text_h1 mb-4">
         <div className="custom-breadcrumb">
           <span className="cus_ppo" onClick={history.goBack}>
-            Category Management
+            Banner Management
           </span>
         </div>
         <button className="cus_btn" onClick={history.goBack}>
@@ -138,23 +134,9 @@ const AddEditInterest = (props) => {
                       mandatory fields
                     </Label>
                   </FormGroup>
-                  <FormGroup>
-                    <Label htmlFor="current_password" className="labelsss">
-                      Name<em style={{ color: "red" }}>*</em>
-                    </Label>
-                    <Input
-                      type="text"
-                      placeholder={`Enter Category Name`}
-                      value={name}
-                      name="name"
-                      id="name"
-                      onChange={changeHandler}
-                      maxLength={50}
-                    />
-                  </FormGroup>
                   <FormGroup className="">
                     <Label htmlFor="current_password" className="labelsss">
-                      Category Image
+                      Banner Image
                       <em style={{ color: "red" }}>*</em>
                       {"  "}
                       <span style={{ fontSize: "13px", fontWeight: "bold" }}>
@@ -262,4 +244,4 @@ const AddEditInterest = (props) => {
   );
 };
 
-export default AddEditInterest;
+export default AddEditBanner;

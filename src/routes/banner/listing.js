@@ -1,91 +1,86 @@
 import React, { useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import RctCollapsibleCard from "Components/RctCollapsibleCard/RctCollapsibleCard";
 import {
-  displayLog,
   apiCall,
   capitalizeFirstLetter,
+  displayLog,
   confirmBox,
 } from "../../util/common";
 import ReactPaginate from "react-paginate";
 import Tooltip from "@material-ui/core/Tooltip";
 import { Col, Row, CardBody } from "reactstrap";
-import CKEditor from "react-ckeditor-component";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-const CmsPageListing = () => {
+const bannerListing = () => {
   const [list, setList] = useState([]);
-  const [page_no, setPageNo] = useState(1);
-  const [limit, setLimit] = useState(10);
+  const [total, setTotal] = useState(2);
   const [loading, setLoading] = useState(true);
   const history = useHistory();
 
   useEffect(() => {
-    getCmsPageListing();
+    getRequestFormList();
   }, []);
 
-  const getCmsPageListing = async () => {
-    let { code, data } = await apiCall("POST", "cms/list", null);
-    if (code == 1) {
-      setList(data);
+  const getRequestFormList = async () => {
+    let { code, data } = await apiCall(
+      "POST",
+      "banner/list",
+      undefined
+    );
+    const { banners, total } = data;
+    if (code == 200) {
+      setList(banners);
+      setTotal(total);
       setLoading(false);
     } else {
-      setList([]);
       setLoading(false);
     }
   };
 
-  // const opnAddNewUserModal = () => {
-  //   history.push("/app/Consultant/AddEditConsultant");
-  // };
+  const handleChange = () => {
+    history.push({ pathname: "/app/banner/createUpdate" });
+  };
 
-  // const handleDelete = async (item) => {
-  //   const { name, consultant_id } = item;
-  //   if (
-  //     await confirmBox(
-  //       capitalizeFirstLetter(name === null ? "" : name),
-  //       `Are you sure you want to delete`
-  //     )
-  //   ) {
-  //     let reqData = {
-  //       consultant_id: consultant_id,
-  //     };
-  //     let { code } = await apiCall("POST", "deleteConsultantById", reqData);
-  //     if (code == 1) {
-  //       getCmsPageListing();
-  //       displayLog(code, "Consultant has been successfully deleted");
-  //     } else {
-  //       setLoading(false);
-  //     }
-  //   } else {
-  //   }
-  // };
+  const handleDelete = async (item) => {
+    const { _id } = item;
+    if (
+      await confirmBox(
+        capitalizeFirstLetter(name),
+        `Are you sure you want to delete`
+      )
+    ) {
+      let reqData = {
+        _id: _id,
+      };
+      let data = await apiCall("POST", "banner/delete", reqData);
+      if (data.code == 200) {
+        getRequestFormList();
+        displayLog(data.code, "Banner has been successfully deleted");
+      } else {
+        setLoading(false);
+      }
+    } else {
+    }
+  };
 
   return (
     <div className="user-management">
-      <h1 className="main_text_h1 mb-4">Pages Management</h1>
+      <h1 className="main_text_h1 mb-4">Banner Management</h1>
 
       <RctCollapsibleCard fullBlock>
         <Row>
           <Col xl={12}>
             <CardBody>
               <Row className="align-items-right">
-                {/* <Col
-                  sm="6"
-                  md="3"
-                  className="mb-3 mb-xl-0"
-                  style={{ position: "relative", right: "0" }}
-                >
+                <Col sm="6" md="3" className="mb-3 mb-xl-0" style={{ position: "relative", right: "0" }}>
                   <div className="ml-2">
-                    <button
-                      className="exportbutton"
-                      onClick={handleRedirection}
-                      style={{ width: "225px" }}
-                    >
+                    <button className="exportbutton" onClick={handleChange} style={{ color: "white", width: "225px" }}>
                       <i className="zmdi zmdi-plus-circle zmdi-hc-lg"></i>
-                      Add New Category
+                      Add New Banner
                     </button>
                   </div>
-                </Col> */}
+                </Col>
               </Row>
             </CardBody>
           </Col>
@@ -97,8 +92,7 @@ const CmsPageListing = () => {
                 <thead>
                   <tr>
                     <th className="table__header">Sr.No.</th>
-                    <th className="table__header">Title </th>
-                    {/* <th className="table__header">Content</th> */}
+                    <th className="table__header">Image</th>
                     <th className="table__header">Action</th>
                   </tr>
                 </thead>
@@ -108,32 +102,33 @@ const CmsPageListing = () => {
                       {list?.length > 0 ? (
                         list.map((item, index) => (
                           <tr key={index}>
-                            <td>{index + 1 + (page_no - 1) * limit}</td>
+                            <td>{index + 1}</td>
                             <td>
-                              {item.title
-                                ? capitalizeFirstLetter(item.title)
-                                : "--"}
+                              {item.image == null ? (
+                                "--"
+                              ) : (
+                                <img
+                                  src={item.image}
+                                  alt="Image"
+                                  className="listimages"
+                                />
+                              )}
                             </td>
-
-                            {/* <td>
-                              {item.content
-                                ? capitalizeFirstLetter(item.content)
-                                : "--"}
-                            </td> */}
                             <td className="list-action">
-                              <Tooltip title="Edit CMS Page">
+                              <Tooltip title="Edit Category">
                                 <Link
                                   to={{
-                                    pathname: "CMSPages/AddEditCmsPage",
-                                    search: `?Id=${item.cms_id}`,
+                                    pathname:
+                                      "banner/createUpdate",
+                                    search: `?Id=${item._id}`,
                                   }}
                                 >
                                   <i className="delete_new zmdi zmdi-edit"></i>
                                 </Link>
                               </Tooltip>
-                              {/* <Tooltip
+                              <Tooltip
                                 id="tooltip-fab"
-                                title="Delete Consultant Account"
+                                title="Delete Category"
                               >
                                 <button
                                   type="button"
@@ -142,13 +137,16 @@ const CmsPageListing = () => {
                                 >
                                   <i className="delete_new zmdi zmdi-delete"></i>
                                 </button>
-                              </Tooltip> */}
+                              </Tooltip>
                             </td>
                           </tr>
                         ))
                       ) : (
                         <tr className="text-center">
-                          <td colSpan={11} style={{ textTransform: "none" }}>
+                          <td
+                            colSpan={11}
+                            style={{ textTransform: "none" }}
+                          >
                             No Records Found
                           </td>
                         </tr>
@@ -165,4 +163,4 @@ const CmsPageListing = () => {
   );
 };
 
-export default CmsPageListing;
+export default bannerListing;

@@ -112,7 +112,7 @@ const InterestListing = () => {
                       onClick={handleChange}
                       style={{ color: "white", width: "225px" }}
                     >
-                      <i class="zmdi zmdi-plus-circle zmdi-hc-lg"></i>
+                      <i className="zmdi zmdi-plus-circle zmdi-hc-lg"></i>
                       Add New Category
                     </button>
                   </div>
@@ -164,7 +164,7 @@ const InterestListing = () => {
                                       {...provided.dragHandleProps}
                                     >
                                       {/* <td {...provided.dragHandleProps}>
-                                        <i class="zmdi zmdi-arrows"></i>
+                                        <i className="zmdi zmdi-arrows"></i>
                                       </td> */}
                                       <td>{index + 1}</td>
                                       <td>
@@ -192,7 +192,7 @@ const InterestListing = () => {
                                               search: `?Id=${item._id}`,
                                             }}
                                           >
-                                            <i class="delete_new zmdi zmdi-edit"></i>
+                                            <i className="delete_new zmdi zmdi-edit"></i>
                                           </Link>
                                         </Tooltip>
                                         <Tooltip
@@ -204,7 +204,7 @@ const InterestListing = () => {
                                             className="rct-link-btn"
                                             onClick={() => handleDelete(item)}
                                           >
-                                            <i class="delete_new zmdi zmdi-delete"></i>
+                                            <i className="delete_new zmdi zmdi-delete"></i>
                                           </button>
                                         </Tooltip>
                                       </td>

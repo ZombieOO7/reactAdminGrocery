@@ -51,7 +51,7 @@ function TermsandConditions() {
               <Row>
                 <FormGroup style={{ width: "100%" }}>
                   <CKEditor
-                    activeClass="p10"
+                    activeclassName="p10"
                     content={data}
                     events={{
                       change: onChange,
@@ -66,7 +66,7 @@ function TermsandConditions() {
                 className="addbuttons"
                 onClick={() => onSubmitHandler()}
               >
-                <i class="zmdi zmdi-floppy mr-2"></i> Submit
+                <i className="zmdi zmdi-floppy mr-2"></i> Submit
               </button>
             </CardFooter>
           </Col>

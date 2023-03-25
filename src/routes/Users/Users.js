@@ -301,7 +301,7 @@ const Users = () => {
                                     search: `?Id=${item.user_id}`,
                                   }}
                                 >
-                                  <i class="delete_new zmdi zmdi-edit"></i>
+                                  <i className="delete_new zmdi zmdi-edit"></i>
                                 </Link>
                               </Tooltip>
                               <Tooltip
@@ -313,7 +313,7 @@ const Users = () => {
                                   className="rct-link-btn"
                                   onClick={() => handleDelete(item)}
                                 >
-                                  <i class="delete_new zmdi zmdi-delete"></i>
+                                  <i className="delete_new zmdi zmdi-delete"></i>
                                 </button>
                               </Tooltip>
                             </td>

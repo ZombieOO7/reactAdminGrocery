@@ -104,7 +104,7 @@ const AddEditCmsPage = (props) => {
           <span className="cus_ppo">Edit CMS Page</span>{" "}
         </div>
         <button className="cus_btn" onClick={history.goBack}>
-          <i class="cus_arr zmdi zmdi-arrow-left"></i>&nbsp;BACK
+          <i className="cus_arr zmdi zmdi-arrow-left"></i>&nbsp;BACK
         </button>
       </h1>
 
@@ -140,7 +140,7 @@ const AddEditCmsPage = (props) => {
                       Page Content<em style={{ color: "red" }}>*</em>
                     </Label>
                     <CKEditor
-                      activeClass="p10"
+                      activeclassName="p10"
                       content={content}
                       events={{
                         change: onChange,
@@ -157,7 +157,7 @@ const AddEditCmsPage = (props) => {
                   className="logout mr-2"
                   onClick={() => submitHandler()}
                 >
-                  <i class="zmdi zmdi-floppy mr-2"></i> Save
+                  <i className="zmdi zmdi-floppy mr-2"></i> Save
                 </button>
               ) : (
                 <button
@@ -165,7 +165,7 @@ const AddEditCmsPage = (props) => {
                   className="logout mr-2"
                   onClick={() => submitHandler()}
                 >
-                  <i class="zmdi zmdi-floppy mr-2"></i>
+                  <i className="zmdi zmdi-floppy mr-2"></i>
                   Add
                 </button>
               )}
@@ -174,7 +174,7 @@ const AddEditCmsPage = (props) => {
                 className="editbtnss"
                 onClick={history.goBack}
               >
-                <i class="zmdi zmdi-close-circle-o mr-2"></i> Cancel
+                <i className="zmdi zmdi-close-circle-o mr-2"></i> Cancel
               </button>
             </CardFooter>
           </Col>

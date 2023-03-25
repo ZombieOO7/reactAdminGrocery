@@ -114,7 +114,7 @@ function HeaderNotification() {
                 <>
                   {list.map((item, index) => {
                     return (
-                      <div>
+                      <div key={index}>
                         <div className="notiBoxnew">
                           <div className="notification-status">
                             <p>

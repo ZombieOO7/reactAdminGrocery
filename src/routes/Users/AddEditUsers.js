@@ -249,7 +249,7 @@ const AddEditUser = (props) => {
           {">"} {params.Id ? "Edit" : "Add"} User{" "}
         </div>
         <button className="cus_btn" onClick={history.goBack}>
-          <i class="cus_arr zmdi zmdi-arrow-left"></i>&nbsp;BACK
+          <i className="cus_arr zmdi zmdi-arrow-left"></i>&nbsp;BACK
         </button>
       </h1>
 
@@ -465,7 +465,7 @@ const AddEditUser = (props) => {
                   className="logout mr-2"
                   onClick={() => submitHandler()}
                 >
-                  <i class="zmdi zmdi-floppy mr-2"></i> Save
+                  <i className="zmdi zmdi-floppy mr-2"></i> Save
                 </button>
               ) : (
                 <button
@@ -473,7 +473,7 @@ const AddEditUser = (props) => {
                   className="logout mr-2"
                   onClick={() => submitHandler()}
                 >
-                  <i class="zmdi zmdi-floppy mr-2"></i>
+                  <i className="zmdi zmdi-floppy mr-2"></i>
                   Add
                 </button>
               )}
@@ -482,7 +482,7 @@ const AddEditUser = (props) => {
                 className="editbtnss"
                 onClick={history.goBack}
               >
-                <i class="zmdi zmdi-close-circle-o mr-2"></i> Cancel
+                <i className="zmdi zmdi-close-circle-o mr-2"></i> Cancel
               </button>
             </CardFooter>
           </Col>

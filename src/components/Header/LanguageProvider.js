@@ -134,7 +134,7 @@ function LanguageProvider() {
             <span>Change password</span>
           </DropdownItem>
           <DropdownItem className="drop_co_1" onClick={() => openModal()}>
-            <i class="zmdi zmdi-settings zmdi-hc-lg mr-1"></i>
+            <i className="zmdi zmdi-settings zmdi-hc-lg mr-1"></i>
             <span>Notification setting</span>
           </DropdownItem>
           <DropdownItem

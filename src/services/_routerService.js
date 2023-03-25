@@ -1,6 +1,6 @@
 // routes
 import Dashboard from "../routes/DashBoard/Dashboard";
-import Users from "../routes/Users/Users";
+// import Users from "../routes/Users/Users";
 import AddEditUser from "../routes/Users/AddEditUsers";
 import Details from "../routes/Users/UserDetails";
 import Page from "../routes/Page/Page";
@@ -11,10 +11,10 @@ import ContactUs from "../routes/Pages/Contactus";
 import ChangePassword from "../routes/ChangePassword/ChangePassword";
 import AddEditCategory from "../routes/Category/create";
 import categoryListing from "../routes/Category/listing";
-// import ArticlesListing from "../routes/Articles/Articles";
-// import AddEditArticle from "../routes/Articles/AddEditArticle";
 import subCategoryListing from "../routes/subCategory/listing";
 import AddEditSubCategory from "../routes/subCategory/create";
+import bannerListing from "../routes/banner/listing";
+import AddEditBanner from "../routes/banner/create";
 import CMSPages from "../routes/CmsPages/CmsPages";
 import AddEditCmsPage from "../routes/CmsPages/AddEditCmsPage";
 
@@ -24,11 +24,11 @@ export default [
     component: Dashboard,
     exact: true,
   },
-  {
-    path: "users",
-    component: Users,
-    exact: true,
-  },
+  // {
+  //   path: "users",
+  //   component: Users,
+  //   exact: true,
+  // },
   {
     path: "users/addeditusers",
     component: AddEditUser,
@@ -52,6 +52,16 @@ export default [
   {
     path: "subCategory/createUpdate",
     component: AddEditSubCategory,
+    exact: true,
+  },
+  {
+    path: "banner",
+    component: bannerListing,
+    exact: true,
+  },
+  {
+    path: "banner/createUpdate",
+    component: AddEditBanner,
     exact: true,
   },
   {
@@ -89,16 +99,6 @@ export default [
     component: PrivacyPolicy,
     exact: true,
   },
-  // {
-  //   path: "Articles",
-  //   component: ArticlesListing,
-  //   exact: true,
-  // },
-  // {
-  //   path: "Articles/AddEditArticle",
-  //   component: AddEditArticle,
-  //   exact: true,
-  // },
   {
     path: "CMSPages",
     component: CMSPages,

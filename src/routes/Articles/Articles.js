@@ -120,7 +120,7 @@ const ArticlesListing = () => {
                       onClick={handleChange}
                       style={{ color: "white", width: "225px" }}
                     >
-                      <i class="zmdi zmdi-plus-circle zmdi-hc-lg"></i>
+                      <i className="zmdi zmdi-plus-circle zmdi-hc-lg"></i>
                       Add New Article
                     </button>
                   </div>
@@ -180,7 +180,7 @@ const ArticlesListing = () => {
                                     search: `?Id=${item.article_id}`,
                                   }}
                                 >
-                                  <i class="delete_new zmdi zmdi-edit"></i>
+                                  <i className="delete_new zmdi zmdi-edit"></i>
                                 </Link>
                               </Tooltip>
                               <Tooltip id="tooltip-fab" title="Delete Article">
@@ -189,7 +189,7 @@ const ArticlesListing = () => {
                                   className="rct-link-btn"
                                   onClick={() => handleDelete(item)}
                                 >
-                                  <i class="delete_new zmdi zmdi-delete"></i>
+                                  <i className="delete_new zmdi zmdi-delete"></i>
                                 </button>
                               </Tooltip>
                             </td>

@@ -210,7 +210,7 @@ function ChangePassword() {
                 variant="contained"
                 onClick={submitHandler}
               >
-                <i class="zmdi zmdi-floppy mr-2"></i> Save
+                <i className="zmdi zmdi-floppy mr-2"></i> Save
               </button>
               <button
                 style={{ height: "39px" }}
@@ -218,7 +218,7 @@ function ChangePassword() {
                 className="ml-4 editbtnss"
                 onClick={history.goBack}
               >
-                <i class="zmdi zmdi-close-circle-o mr-2"></i> Cancel
+                <i className="zmdi zmdi-close-circle-o mr-2"></i> Cancel
               </button>
             </CardFooter>
           </Col>

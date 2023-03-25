@@ -47,7 +47,7 @@ const GrowthDetails = (props) => {
           {">"} Child Growth Details{" "}
         </div>
         <button className="cus_btn" onClick={history.goBack}>
-          <i class="cus_arr zmdi zmdi-arrow-left"></i>&nbsp;BACK
+          <i className="cus_arr zmdi zmdi-arrow-left"></i>&nbsp;BACK
         </button>
       </h1>
       <RctCollapsibleCard fullBlock>

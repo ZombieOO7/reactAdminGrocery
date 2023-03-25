@@ -100,7 +100,7 @@ const subCategoryListing = () => {
                       onClick={handleChange}
                       style={{ color: "white", width: "225px" }}
                     >
-                      <i class="zmdi zmdi-plus-circle zmdi-hc-lg"></i>
+                      <i className="zmdi zmdi-plus-circle zmdi-hc-lg"></i>
                       Add New Subcategory
                     </button>
                   </div>
@@ -153,7 +153,7 @@ const subCategoryListing = () => {
                                     search: `?Id=${item._id}`,
                                   }}
                                 >
-                                  <i class="delete_new zmdi zmdi-edit"></i>
+                                  <i className="delete_new zmdi zmdi-edit"></i>
                                 </Link>
                               </Tooltip>
                               <Tooltip id="tooltip-fab" title="Delete Subcategory">
@@ -162,7 +162,7 @@ const subCategoryListing = () => {
                                   className="rct-link-btn"
                                   onClick={() => handleDelete(item)}
                                 >
-                                  <i class="delete_new zmdi zmdi-delete"></i>
+                                  <i className="delete_new zmdi zmdi-delete"></i>
                                 </button>
                               </Tooltip>
                             </td>
