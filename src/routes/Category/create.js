@@ -163,7 +163,7 @@ const AddEditInterest = (props) => {
                       </span>
                     </Label>
                     <ImageUploading
-                      multiple
+                      multiple={false}
                       value={image}
                       onChange={onLogoChange}
                       maxNumber={1}

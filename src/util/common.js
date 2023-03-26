@@ -194,18 +194,13 @@ export const apiCallwithoutHeader = async (method, url, reqData, params) => {
 };
 
 export const displayLog = (code, message) => {
-  if (code == 0) {
+  if (code == 500) {
     toast.error(message, {
       progress: undefined,
       transition: bounce,
     });
-  } else if (code == 1) {
+  } else if (code == 200) {
     toast.success(message, {
-      progress: undefined,
-      transition: bounce,
-    });
-  } else if (code == 2) {
-    toast.info(message, {
       progress: undefined,
       transition: bounce,
     });

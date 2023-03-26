@@ -126,7 +126,7 @@ function LanguageProvider() {
         </DropdownToggle>
 
         <DropdownMenu className="drop_co_2343">
-          <DropdownItem
+          {/* <DropdownItem
             className="drop_co_1"
             onClick={() => goChangePassword()}
           >
@@ -136,7 +136,7 @@ function LanguageProvider() {
           <DropdownItem className="drop_co_1" onClick={() => openModal()}>
             <i className="zmdi zmdi-settings zmdi-hc-lg mr-1"></i>
             <span>Notification setting</span>
-          </DropdownItem>
+          </DropdownItem> */}
           <DropdownItem
             style={{
               borderBottomLeftRadius: "10px",

@@ -15,6 +15,8 @@ import subCategoryListing from "../routes/subCategory/listing";
 import AddEditSubCategory from "../routes/subCategory/create";
 import bannerListing from "../routes/banner/listing";
 import AddEditBanner from "../routes/banner/create";
+import productListing from "../routes/product/listing";
+import AddEditProduct from "../routes/product/create";
 import CMSPages from "../routes/CmsPages/CmsPages";
 import AddEditCmsPage from "../routes/CmsPages/AddEditCmsPage";
 
@@ -62,6 +64,16 @@ export default [
   {
     path: "banner/createUpdate",
     component: AddEditBanner,
+    exact: true,
+  },
+  {
+    path: "products",
+    component: productListing,
+    exact: true,
+  },
+  {
+    path: "product/createUpdate",
+    component: AddEditProduct,
     exact: true,
   },
   {

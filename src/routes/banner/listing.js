@@ -14,6 +14,8 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 const bannerListing = () => {
   const [list, setList] = useState([]);
+  const [page_no, setPageNo] = useState(1);
+  const [limit, setLimit] = useState(10);
   const [total, setTotal] = useState(2);
   const [loading, setLoading] = useState(true);
   const history = useHistory();
@@ -23,11 +25,11 @@ const bannerListing = () => {
   }, []);
 
   const getRequestFormList = async () => {
-    let { code, data } = await apiCall(
-      "POST",
-      "banner/list",
-      undefined
-    );
+    let req_data = {
+      page_no: page_no,
+      limit: limit,
+    };
+    let { code, data } = await apiCall("POST","banner/list",req_data);
     const { banners, total } = data;
     if (code == 200) {
       setList(banners);
@@ -37,7 +39,9 @@ const bannerListing = () => {
       setLoading(false);
     }
   };
-
+  const handlePageClick = (e) => {
+    setPageNo(e.selected + 1);
+  };
   const handleChange = () => {
     history.push({ pathname: "/app/banner/createUpdate" });
   };
@@ -102,7 +106,7 @@ const bannerListing = () => {
                       {list?.length > 0 ? (
                         list.map((item, index) => (
                           <tr key={index}>
-                            <td>{index + 1}</td>
+                            <td>{index + 1 + (page_no - 1) * limit}</td>
                             <td>
                               {item.image == null ? (
                                 "--"
@@ -154,6 +158,32 @@ const bannerListing = () => {
                     </>
                   )}
                 </tbody>
+                {list.length > 0 ? (
+                  <tfoot className="border-top">
+                    <tr>
+                      <td colSpan="100%" className="Align">
+                        <ReactPaginate
+                          pageCount={Math.ceil(total / limit)}
+                          onPageChange={handlePageClick}
+                          previousLabel={"Previous"}
+                          nextLabel={"Next"}
+                          breakLabel={"..."}
+                          breakClassName={"page-item"}
+                          breakLinkClassName={"page-link"}
+                          containerClassName={"pagination newpagination"}
+                          pageClassName={"page-item"}
+                          pageLinkClassName={"page-link"}
+                          previousClassName={"page-item"}
+                          previousLinkClassName={"page-link"}
+                          nextClassName={"page-item"}
+                          nextLinkClassName={"page-link"}
+                          activeClassName={"active"}
+                          forcePage={page_no - 1}
+                        />
+                      </td>
+                    </tr>
+                  </tfoot>
+                ) : null}
               </table>
             </div>
           </div>

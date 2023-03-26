@@ -12,10 +12,10 @@ import ReactPaginate from "react-paginate";
 import Tooltip from "@material-ui/core/Tooltip";
 import { Col, Row, CardBody } from "reactstrap";
 
-const subCategoryListing = () => {
+const productListing = () => {
   const [list, setList] = useState([]);
   const [page_no, setPageNo] = useState(1);
-  const [limit, setLimit] = useState(1);
+  const [limit, setLimit] = useState(10);
   const [total, setTotal] = useState(2);
   const [loading, setLoading] = useState(true);
   const [searchByName, setSearchByname] = useState("");
@@ -33,9 +33,9 @@ const subCategoryListing = () => {
     if (searchByName) {
       req_data["search"] = searchByName;
     }
-    let data = await apiCall("POST", "subcategory/list", req_data);
+    let data = await apiCall("POST", "product/list", req_data);
     if (data.code == 200) {
-      setList(data.data.subCategories);
+      setList(data.data.products);
       setTotal(data.data.total);
       setLoading(false);
     } else {
@@ -48,7 +48,7 @@ const subCategoryListing = () => {
   };
 
   const handleChange = () => {
-    history.push({ pathname: "/app/subCategory/createUpdate" });
+    history.push({ pathname: "/app/product/createUpdate" });
   };
 
   const handleDelete = async (item) => {
@@ -62,11 +62,11 @@ const subCategoryListing = () => {
       let reqData = {
         _id: _id,
       };
-      let { code } = await apiCall("POST", "subcategory/delete", reqData);
+      let { code } = await apiCall("POST", "product/delete", reqData);
 
       if (code == 200) {
         getListing();
-        displayLog(code, "Subcategory has been successfully deleted");
+        displayLog(code, "Product has been successfully deleted");
       } else {
         setLoading(false);
       }
@@ -81,7 +81,7 @@ const subCategoryListing = () => {
 
   return (
     <div className="user-management">
-      <h1 className="main_text_h1 mb-4">Subcategory Management</h1>
+      <h1 className="main_text_h1 mb-4">Product Management</h1>
 
       <RctCollapsibleCard fullBlock>
         <Row>
@@ -101,7 +101,7 @@ const subCategoryListing = () => {
                       style={{ color: "white", width: "225px" }}
                     >
                       <i className="zmdi zmdi-plus-circle zmdi-hc-lg"></i>
-                      Add New Subcategory
+                      Add New Product
                     </button>
                   </div>
                 </Col>
@@ -118,7 +118,6 @@ const subCategoryListing = () => {
                   <tr>
                     <th className="table__header">Sr.No.</th>
                     <th className="table__header">Name</th>
-                    <th className="table__header">Image</th>
                     <th className="table__header">Category</th>
                     <th className="table__header">Actions</th>
                   </tr>
@@ -132,31 +131,20 @@ const subCategoryListing = () => {
                             <td>{index + 1 + (page_no - 1) * limit}</td>
                             <td>{capitalizeFirstLetter(item.name)}</td>
                             <td>
-                              {item.image == null ? (
-                                "--"
-                              ) : (
-                                <img
-                                  src={item.image}
-                                  alt={`${item.name}`}
-                                  className="listimages"
-                                />
-                              )}
-                            </td>
-                            <td>
                               {item.category ? item.category.name : "--"}
                             </td>
                             <td className="list-action">
                               <Tooltip title="Edit Subacategory">
                                 <Link
                                   to={{
-                                    pathname: "subCategory/createUpdate",
+                                    pathname: "product/createUpdate",
                                     search: `?Id=${item._id}`,
                                   }}
                                 >
                                   <i className="delete_new zmdi zmdi-edit"></i>
                                 </Link>
                               </Tooltip>
-                              <Tooltip id="tooltip-fab" title="Delete Subcategory">
+                              <Tooltip id="tooltip-fab" title="Delete product">
                                 <button
                                   type="button"
                                   className="rct-link-btn"
@@ -169,7 +157,7 @@ const subCategoryListing = () => {
                           </tr>
                         ))
                       ) : (
-                        <tr className="text-center">
+                        <tr className="text-center" >
                           <td colSpan={11} style={{ textTransform: "none" }}>
                             No Records Found
                           </td>
@@ -213,4 +201,4 @@ const subCategoryListing = () => {
   );
 };
 
-export default subCategoryListing;
+export default productListing;
