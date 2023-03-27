@@ -192,10 +192,11 @@ const Signin = () => {
         <div className="overlay-container signin_back">
           <div className="overlay">
             <div className="overlay-panel overlay-right">
-              <img
+              <div style={{fontSize:"64px",fontFamily:'fantasy'}}>Grocery</div>
+              {/* <img
                 style={{ width: "350px", maxWidth: "100%" }}
                 src={require("../assets/img/leva-logo-white.png")}
-              />
+              /> */}
             </div>
           </div>
         </div>

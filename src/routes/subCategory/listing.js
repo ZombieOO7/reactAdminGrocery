@@ -15,7 +15,7 @@ import { Col, Row, CardBody } from "reactstrap";
 const subCategoryListing = () => {
   const [list, setList] = useState([]);
   const [page_no, setPageNo] = useState(1);
-  const [limit, setLimit] = useState(1);
+  const [limit, setLimit] = useState(10);
   const [total, setTotal] = useState(2);
   const [loading, setLoading] = useState(true);
   const [searchByName, setSearchByname] = useState("");
@@ -53,12 +53,7 @@ const subCategoryListing = () => {
 
   const handleDelete = async (item) => {
     const { _id, name } = item;
-    if (
-      await confirmBox(
-        capitalizeFirstLetter(name),
-        `Are you sure you want to delete`
-      )
-    ) {
+    if (await confirmBox(capitalizeFirstLetter(name), `Are you sure you want to delete`)) {
       let reqData = {
         _id: _id,
       };
@@ -70,7 +65,6 @@ const subCategoryListing = () => {
       } else {
         setLoading(false);
       }
-    } else {
     }
   };
 
